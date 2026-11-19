@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FontUI — HUD editor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">F</span><strong>FontUI</strong><span class="edition">Java 26.3</span></div>
+  <div class="actions">
+    <button id="undo" title="Ctrl+Z" disabled>Undo</button><button id="redo" title="Ctrl+Y or Ctrl+Shift+Z" disabled>Redo</button>
+    <button id="open">Open project</button><button id="save" title="Ctrl+S or Command+S" aria-keyshortcuts="Control+S Meta+S">Save project</button>
+    <span id="save-status" role="status"></span>
+    <button id="download-project">Download project</button>
+    <button id="export" class="primary">Export resource pack <span aria-hidden="true">↗</span></button>
+  </div>
+</header>
+<main>
+  <aside class="sidebar" aria-labelledby="layers-title">
+    <div class="panel-head"><h2 id="layers-title">Layers</h2><span id="layer-count"></span></div>
+    <div id="layers"></div>
+    <div class="layer-clipboard" role="group" aria-label="Layer clipboard">
+      <button id="copy-layer" type="button" title="Ctrl+C or Command+C" aria-keyshortcuts="Control+C Meta+C" disabled>Copy layer</button>
+      <button id="paste-layer" type="button" title="Ctrl+V or Command+V" aria-keyshortcuts="Control+V Meta+V" disabled>Paste layer</button>
+    </div>
+    <div class="layer-clipboard" role="group" aria-label="Layer groups">
+      <button id="group-layers" type="button" title="Shift-click layer names to select multiple layers" disabled>Group</button>
+      <button id="ungroup-layers" type="button" disabled>Ungroup</button>
+    </div>
+    <div id="add" class="add">
+      <h3>Add layer</h3>
+      <button data-type="image"><span aria-hidden="true">▧</span>Image</button>
+      <button data-type="text"><span aria-hidden="true">T</span>Static text</button>
+      <button data-type="live"><span aria-hidden="true">#</span>Live text</button>
+      <button data-type="bar"><span aria-hidden="true">▰</span>Fill bar</button>
+    </div>
+    <section class="command-panel" aria-label="Minecraft command">
+      <button id="show-command" type="button" aria-haspopup="dialog">Minecraft command</button>
+    </section>
+  </aside>
+  <section class="workspace" aria-labelledby="canvas-title">
+    <div class="canvas-head">
+      <h1 id="canvas-title">HUD preview</h1>
+      <div class="tools"><button id="guides" aria-pressed="true">Guides</button><button id="hotbar" type="button" aria-pressed="true">Hotbar</button><button id="fit" aria-pressed="true">Fit</button>
+        <label class="zoom-control">Zoom <select id="zoom" aria-label="Canvas zoom">
+          <option value="1">100%</option><option value="2">200%</option><option value="3">300%</option>
+          <option value="4">400%</option><option value="5">500%</option><option value="6">600%</option>
+        </select></label>
+      </div>
+    </div>
+    <div class="viewport"><canvas id="canvas" tabindex="0" aria-label="HUD preview. Use arrow keys to move the selected layer."></canvas></div>
+    <div class="canvas-foot"><p id="status" role="status"></p><span>Action bar anchor</span></div>
+  </section>
+  <aside class="inspector" aria-labelledby="inspector-title">
+    <div class="panel-head"><h2 id="inspector-title">Inspector</h2></div>
+    <div id="properties"></div>
+    <details class="project-settings"><summary>Project settings</summary><div id="settings"></div></details>
+  </aside>
+</main>
+<dialog id="quick-command" class="command-dialog" aria-labelledby="quick-title">
+  <div class="panel-head"><h2 id="quick-title">Minecraft command</h2><form method="dialog"><button>Close</button></form></div>
+  <pre id="quick-preview" class="command-preview" tabindex="0" aria-label="Preview command"></pre>
+  <div class="dialog-actions"><span id="quick-status" role="status"></span><button id="copy-quick" class="primary" type="button" disabled>Copy command</button></div>
+</dialog>
+<dialog id="command" class="command-dialog" aria-labelledby="export-title">
+  <div class="panel-head"><h2 id="export-title">Resource pack exported</h2><form method="dialog"><button aria-label="Close export dialog">Close</button></form></div>
+  <p>Enable the downloaded ZIP in Minecraft Java 26.3, then run this command in a world with commands enabled.</p>
+  <p id="anchor-note" hidden></p>
+  <pre id="export-preview" class="command-preview" tabindex="0" aria-label="Preview command"></pre>
+  <div class="dialog-actions"><span id="copy-status" role="status"></span><button id="copy" class="primary">Copy command</button></div>
+</dialog>
+<input id="project-file" type="file" accept=".json,application/json" hidden>
+<script src="layout.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>
